@@ -1,41 +1,35 @@
-# MUSE.AI API PHP Wrapper
+<?php
+/**
+ * MUSE.AI API PHP Examples
+ *
+ * @author Joshua Weller, joshdw.com
+ * @copyright Copyright (c) 2021 Joshua Weller for ExHora.com
+ * @license MIT License
+ * 
+ * Docs: https://muse.ai/api
+ * 
+ * Notes:
+ * I recommend delaying requests if doing multiple calls to not surpass any
+ * API limits. Use something like usleep(500) between API requests.
+ * Also note that some video requests need the FID parameter, others need
+ * the SVID parameter.
+ * 
+ * */
 
-I recently was on the search for a new video hosting platform, and came across [Muse.ai](https://muse.ai/join?ref=wm5Drh6). I am absolutely amazed by the platform and what it offers, and for the cost it's unbeatable.
 
-I decided to share this simple wrapper I wrote for my PHP app, maybe it'll be useful to someone else :)
-
-I haven't added functionality for cutting videos or uploading subtitles, but can do if there is interest in it.
-
-API documentation https://muse.ai/api
-
-## Notes
-
-Responses are json_decoded arrays (associative), so an example for getVideo result would be  `$result['title']`
-
-I recommend delaying requests if doing multiple calls to not surpass any API limits. Use something like `usleep(500);` between API requests.
-
-Also note that some video requests need the FID parameter, others need the SVID parameter.
-
-## Requirements
-
-curl must be enabled (run phpinfo(); and check)
-
-## Installation
-
-No composer needed, simply add the museai.php file as an include or require in your app and initiate an instance.
-
-```php
+ // First you must include museai.php in your app
 require_once('museai.php');
+
+// Inititate an instance of the wrapper using an API KEY as the single parameter
 $_MUSEAI = new museai('API-KEY-HERE');
-```
 
-## Usage
 
-```php
+// ---
+
+
 // Get a list of collections (returns array)
 $result = $_MUSEAI->listCollections();
 /*
-Example response:
 Array
 (
     [0] => Array
@@ -99,7 +93,6 @@ $result = $_MUSEAI->deleteVideo($fid);
 // Get array of all videos
 $result = $_MUSEAI->getVideos();
 /*
-Example response:
 Array
 (
     [0] => Array
@@ -161,11 +154,6 @@ $result = $_MUSEAI->changeVideoCover(
 // Note: video must not be private, or else image will return a 404.
 $result = $_MUSEAI->getVideoThumbnail($fid);
 $result = $_MUSEAI->getVideoThumbnail($fid, 52); // Timestamp: 52 seconds
-/*
-Example result (string): 
-https://cdn.muse.ai/w/fid/thumbnails/thumbnail.jpg
-https://cdn.muse.ai/w/fid/thumbnails/00052.jpg
-*/
 
 // Get scenes array of video
 $result = $_MUSEAI->getVideoScenes($svid);
@@ -184,15 +172,3 @@ $result = $_MUSEAI->getVideoSounds($svid);
 
 // Get faces array of video
 $result = $_MUSEAI->getVideoFaces($svid);
-```
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
-
-## Author
-Joshua Weller
-
-joshdw.com | exhora.com
